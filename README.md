@@ -1,6 +1,6 @@
 # peliculas
 
-A new Flutter project.
+aplicación  de peliculas siguiendo el curso de Fernando Herrea.
 
 ## Getting Started
 
