@@ -11,6 +11,9 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    //esta instrucion es el que retorna el listado del Future, pero tambien este va ejecutar el .sink.add que el que añade informacion, y abajo en el StreamBuilder ya ejecutamos esa informacion nueva recibida.
+    peliculasProvider.getPopulares();
+
     return Scaffold(
       appBar: AppBar(
         title: Text('Películas en cine'),
@@ -20,7 +23,7 @@ class HomePage extends StatelessWidget {
           IconButton(
             icon: Icon(Icons.search),
             onPressed: () {
-              
+              // showSearch(context: null, delegate: null);
             },
           )
         ],
@@ -31,7 +34,8 @@ class HomePage extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: <Widget>[
             _swiperTarjetas(),
-            _footer(context)
+            _footer(context),//necesitamos mandarle el contex
+
           ],
         ),
       )
@@ -72,26 +76,32 @@ class HomePage extends StatelessWidget {
     // );
   }
 
-
-  Widget _footer(BuildContext context) {
+  ///Metodo que retorna un widget que sera para mostrar las peliculas populares que sera scroleable de manera horizontal usando Pageview.
+  Widget _footer(BuildContext context) {//necesitamos recibir el contex
     return Container(
-      width: double.infinity,
+      width: double.infinity,//Todo el ancho posible
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.start,//alinear al inicio del column
         children: <Widget>[
           Container(
-            padding: EdgeInsets.only(left: 20.0),
+            padding: EdgeInsets.only(left: 20.0),//un magen del lado izquierdo del texto
+            //el Theme.of(cont... me va perimitir configurar de una manera global toda mi aplicación, ejemplo: si queiro que los subtitulos tengan un color en particular simplemente configuro esta linea y ya.
             child: Text('Populares', style: Theme.of(context).textTheme.subtitle1)
           ),
           SizedBox(height: 5.0),
-          FutureBuilder(
-            future: peliculasProvider.getPopulares(),
-            // initialData: InitialData,
+          //La diferecia entre es que el StreamBuilder se va ejecutar cada vez que se emita o se ingrese un valor en el Stream, en cambio el FutureBuilder se ejecuta una sola vez.
+          StreamBuilder(//esta esperando que ingrese nueva informacion para ejecutarse
+            stream: peliculasProvider.popularesStream,//el stream le pasamos el resulatado o la salida del StreamController
             builder: (BuildContext context, AsyncSnapshot<List> snapshot) {
               //el ? lo que va decir es: has ese forEach si existe data, si no hay data no hace el forEach
               // snapshot.data?.forEach((e) => print(e.title));
               if(snapshot.hasData) {
-                return MovieHorizontal(peliculas: snapshot.data);
+                //enviamos los dos argumentos que la clase requiere
+                return MovieHorizontal(
+                  peliculas: snapshot.data,
+                  //llamamos el metodo que procesa las peliculas populares
+                  siguientePagina: peliculasProvider.getPopulares,//este se encarga de ejecutar el metodo para mostrar las peliculas populares cada vez que cumpla la condion de que si esta llegando al fonal del pageView esntonces se ejecute este metodo y pueda cargar mas peliculas.
+                );
               } else {
               return Center(child: CircularProgressIndicator());
               }

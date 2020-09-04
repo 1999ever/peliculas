@@ -23,6 +23,7 @@ class Peliculas {
 
 ///Clase Pelicula que va manejar las propiedes de cada pelicula
 class Pelicula {
+  String uniqueId;
   //Propiedades necesarias para consumir el servicio de MovieDB
   double popularity;//popularidad
   int voteCount;//cantidad de votos
@@ -85,6 +86,20 @@ class Pelicula {
     } else {
       //retornamos la ruta del poster, que en este caso cada pelicula tiene su propio poster y dicha ruta esta almacenada en la propiedad posterPath
       return 'https://image.tmdb.org/t/p/w500/$posterPath';
+    }
+
+  }
+
+
+    getBackgroundImg() {
+    //si el la pelicula no tiene poster
+    if( posterPath == null ) {
+      //retornamos esta imagen
+      return 'https://robertoespinosa.es/wp-content/uploads/2019/10/placeholder.png';
+      //caso contrario
+    } else {
+      //retornamos la ruta del poster, que en este caso cada pelicula tiene su propio poster y dicha ruta esta almacenada en la propiedad posterPath
+      return 'https://image.tmdb.org/t/p/w500/$backdropPath';
     }
 
   }
