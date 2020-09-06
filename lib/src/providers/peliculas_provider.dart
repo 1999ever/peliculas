@@ -93,19 +93,20 @@ class PeliculasProvider {
 
   }
 
-  ///
+  ///Método que regresa un Future que a su vez reguresa un lista de Actores. Recibe un argumento de tipo String, este argumento va ser el id de la pelicula, ya que al saber el id de la pelicula se va poder concocer los actores que participaron en dicha pelicula.
   Future<List<Actor>> getCast(String peliId) async {
-
+    //creamos la url que vamos a llamar (endPoint) para consumir el servicio
     final url = Uri.https(_url, '3/movie/$peliId/credits', {
-      'api_key'  : _apiKey,
-      'language' : _language
+      'api_key'  : _apiKey,//esta propiedad es requerida
+      'language' : _language//el lenguaje es opcional, pero en si seria obligatorio para mi caso porque lo quiero en Español
     });
-
+    //Llamamos la url para consumir dicho servicio y el resultado lo almacenamos en la variable respuesta
     final respuesta = await http.get(url);
+    //decodificamos el cuerpo de la respuesta
     final decodeData = jsonDecode(respuesta.body);
-
+    //Instanciamos la clase Cast y llamamos su constructor y a este le enviamos la propiedad cast del la data decodificada
     final cast = new Cast.fromJsonList(decodeData['cast']);
-    
+
     return cast.actores;
 
   }

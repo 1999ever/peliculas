@@ -44,14 +44,15 @@ class MovieHorizontal extends StatelessWidget {
 
   Widget _tarjeta(BuildContext context, Pelicula peli) {
 
+    //Este va tener el id seguido de la palabra -poster para que sea un id unico y el Hero no se pueda confundir este poster pequeño con el poster pricipal
     peli.uniqueId = '${peli.id}-poster';
 
     final tarjeta =  Container(
       margin: EdgeInsets.only(right: 13.0),//para que tenga una separacion con la siguiente tarjeta que venga y esta siempre vendra del lado derecho
       child: Column(
         children: <Widget>[
-          Hero(
-            tag: peli.uniqueId,
+          Hero(//Para realizar animaciones o transacciones de dos imagenes que tengan el mismo tag en ambos lado
+            tag: peli.uniqueId,//el tag es un id unico que le va identificar para enlazar al otro que tiene el Hero con el mismo id en su Tag
             child: ClipRRect(
               borderRadius: BorderRadius.circular(20.0),
               child: FadeInImage(

@@ -23,6 +23,7 @@ class Peliculas {
 
 ///Clase Pelicula que va manejar las propiedes de cada pelicula
 class Pelicula {
+  //esta propiedad la creamos nostros y que esta va recibir el id unico que se va crear para las peliculas, ya que en el home page usamos 2 veces los poster y por ende estamos usando 2 veces el id de dicha pelicual, y para hacer el Hero necesito que ambos tengan ids diferentes
   String uniqueId;
   //Propiedades necesarias para consumir el servicio de MovieDB
   double popularity;//popularidad
