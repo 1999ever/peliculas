@@ -61,7 +61,7 @@ class DataSearch extends SearchDelegate {
     //Son las sugerencias que aparecen cuando la persona escribe, o mientras va escriebiendo van aparecer los resultados.
     
     //si la consulta esta vacia, es dicir si no ha escrito nada, que retorner un container que seria en si nada o que este en blanco la pagina.
-    if(query.isEmpty) {
+    if(query.isEmpty) {//es para prevenir que no vayamos a construir algo que no existe o barrer elementos que no existen
       return Container();
     }
     //de lo contrario que retorne el FutureBuilder
@@ -75,23 +75,23 @@ class DataSearch extends SearchDelegate {
           final peliculas = snapshot.data;
           return ListView(
             //barremos la lista de peliculas usando un el map
-            children: peliculas.map((e) {//e contiene cada elemento o pelicula por separado
+            children: peliculas.map((pelicula) {//e contiene cada elemento o pelicula por separado
               return ListTile(
                 leading: FadeInImage(
                   //el icono va ser el poster de la pelicula
-                  image: NetworkImage(e.getPosterImg()),
+                  image: NetworkImage(pelicula.getPosterImg()),
                   placeholder: AssetImage('assets/img/no-image.jpg'),
                   width: 50.0,
                   fit: BoxFit.contain,
                 ),
-                title: Text(e.title),
-                subtitle: Text(e.originalTitle),
+                title: Text(pelicula.title),
+                subtitle: Text(pelicula.originalTitle),
                 //para hacer click en los listView
-                onTap: () {
+                onTap: () {//a parte de cerrar la ruta voy necesitar navegar a la pagina de detalle
                   close(context, null);//una vez que se haga tap en cualquier ListView ser cierra la pagina de busqueda
-                  e.uniqueId = '';//para el  tema de Hero animation
+                  pelicula.uniqueId = '';//para el  tema de Hero animation
                   //a la pagina al cual se va dirigir una vez que se haga tap es a la pagina de detalle de la pelicula que fue selecciondo
-                  Navigator.pushNamed(context, 'detalle', arguments: e);//como argumento le pasamo la pelicula que fue selecionado
+                  Navigator.pushNamed(context, 'detalle', arguments: pelicula);//como argumento le pasamo la pelicula que fue selecionado
                 },
               );
             }).toList()//lo convertimos a lista, ya que el map retorna un Iterable
