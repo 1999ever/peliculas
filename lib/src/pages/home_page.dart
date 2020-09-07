@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
-
-import 'package:peliculas/src/widget/card_swiper_widget.dart';
 import 'package:peliculas/src/providers/peliculas_provider.dart';
+import 'package:peliculas/src/search/search_delegate.dart';
+
 import 'package:peliculas/src/widget/movie_horizontal.dart';
+import 'package:peliculas/src/widget/card_swiper_widget.dart';
+
 
 ///Clase que crea la página de Inicio de la aplicación Películas.
 class HomePage extends StatelessWidget {
@@ -22,8 +24,15 @@ class HomePage extends StatelessWidget {
         actions: <Widget>[
           IconButton(
             icon: Icon(Icons.search),
+            // autofocus: false,
             onPressed: () {
-              // showSearch(context: null, delegate: null);
+              //Muestra una página de búsqueda a pantalla completa y devuelve el resultado de la búsqueda seleccionado por el usuario cuando se cierra la página.
+              showSearch(
+                //recibe estos 3 parametros
+                context: context,
+                delegate: DataSearch(),//Esta recibiendo la instancia de la clase que extiende de SearchDelegate
+                // query: 'Hola'
+              );
             },
           )
         ],

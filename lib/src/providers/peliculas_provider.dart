@@ -111,4 +111,18 @@ class PeliculasProvider {
 
   }
 
+  ///Método que se encarga hacer la peticion de busqueda, el cual requiere el argumento query que es la consulta o palabra que el usuario esta escribiendo en el cuadro de busqueda.
+  Future<List<Pelicula>> buscarPelicula(String query) async {
+    //generamos la url a la cual se ara la peticion
+    final url = Uri.https(_url, '3/search/movie', {
+      'api_key'  : _apiKey,
+      'language' : _language,
+      'query'    : query
+    });
+
+    return await _procesarRespuesta(url);
+
+  }
+
+
 }
